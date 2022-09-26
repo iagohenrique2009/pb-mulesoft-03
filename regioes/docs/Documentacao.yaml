@@ -1,0 +1,374 @@
+openapi: 3.0.1
+info:
+  title: API de Regioes
+  description: API de regioes com autententicao de usuarios para prova da Sprint 3
+  version: 1.0.0
+  contact:
+    name: RegioesAPI
+    email: iago.oliveira.pb@compasso.com.br
+    url: https://github.com/iagohenrique2009/pb-mulesoft-03-RegioesAPI
+  license:
+    name: "Licensa: GPLv3"
+    url: https://www.gnu.org/licenses/quick-guide-gplv3.pt-br.html
+servers:
+- url: http://localhost:8080
+  description: Link da API
+paths:
+  /api/v1/estados:
+              get:
+                  summary: "Retorna uma lista com todos os estados"
+                  description: |
+                          **Abaixo A lista do codigo http que a API pode retornar**
+                          * 200 - Sucesso
+                  responses:
+                    200:
+                      description: Sucesso
+                      content:
+                        application/json:
+                          schema:
+                            $ref: '#/components/schemas/estados'
+              post:
+                summary: "Adiciona um estado novo"
+                description: |
+                  
+                    **Observacoes de campos**
+                    
+                    * Nao podem ser nulos
+                    * Não podem ser vazios
+                    * Valores numericos maiores que 1
+                    
+                    __Abaixo a lista de Regioes validas:__
+                    1. Norte
+                    2. Nordeste
+                    3. Sul
+                    4. Sudeste
+                    5. Centro_Oeste
+                    
+                    **Abaixo A lista do codigo http que a API pode retornar**
+                    * 201 - Criado com sucesso
+                    * 403 - Acesso restrito
+ 
+                requestBody:
+                  required: true
+                  content:
+                    application/json:
+                     schema:
+                        $ref: '#/components/schemas/estadoForm'
+                responses:
+                    201:
+                      description: "Criado com sucesso"
+                      content:
+                        application/json:
+                          example: "Criado com sucesso"
+                    403:
+                      description: "Created"
+                      content:
+                        application/json:
+                          example: "Forbidden"
+                security:
+                - autenticacao: []
+                  
+  /api/v1/estados/{id}:
+                  parameters:
+                  - name: id
+                    in: path
+                    schema:
+                        type: integer
+                    required: true
+                  get:
+                      summary: "Retorna um estado pelo id"
+                      description: |
+                          **Abaixo A lista do codigo http que a API pode retornar**
+                          * 200 - Sucesso
+                          * 404 - Id não encontrado
+                      responses:
+                        200:
+                          description: Sucesso
+                          content:
+                            application/json:
+                              schema:
+                                $ref: '#/components/schemas/estado'
+                        404:
+                          description: "Id não encontrado"
+                          content:
+                            application/json:
+                              example: "Not found"
+                  put:
+                    summary: "Atualiza um estado ja existente pelo id"
+                    description: |
+                  
+                        **Observacoes de campos**
+                        
+                        * Nao podem ser nulos
+                        * Não podem ser vazios
+                        * Valores numericos maiores que 1
+                        
+                        __Abaixo a lista de Regioes validas:__
+                        
+                        1. Norte
+                        2. Nordeste
+                        3. Sul
+                        4. Sudeste
+                        5. Centro_Oeste
+                        
+                        **Abaixo A lista do codigo http que a API pode retornar**
+                        
+                        * 201 - Criado com sucesso
+                        * 403 - Acesso restrito
+                        * 404 - Id nao encontrado
+                    requestBody:
+                      required: true
+                      content:
+                        application/json:
+                         schema:
+                            $ref: '#/components/schemas/estadoForm'
+                    responses:
+                        201:
+                          description: "Criado com sucesso"
+                          content:
+                            application/json:
+                              example: "Created"
+                        404:
+                          description: "Id nao encontrado"
+                          content:
+                            application/json:
+                              example: "Not found"
+                        403:
+                          description: "Acesso Restrito para nao-usuarios"
+                          content:
+                            application/json:
+                              example: "Forbidden"
+                    security:
+                    - autenticacao: []
+                  delete:
+                    summary: "Deleta um estado pelo id"
+                    description: |
+                      **Abaixo A lista do codigo http que a API pode retornar**
+              
+                          * 201 - Criado com sucesso
+                          * 403 - Acesso restrito
+                          * 404 - Id nao encontrado
+                          
+                    responses:
+                        200:
+                          description: "Deletado com sucesso"
+                        404:
+                          description: "Id nao encontrado"
+                          content:
+                            application/json:
+                              example: "Not found"
+                        403:
+                          description: "Acesso Restrito para nao-usuarios"
+                          content:
+                            application/json:
+                              example: "Forbidden"
+                    security:
+                    - autenticacao: []
+  /api/v1/usuarios:
+                get:
+                  summary: "Retorna uma lista com todos os usuarios"
+                  description: |
+                          **Abaixo A lista do codigo http que a API pode retornar**
+                          * 200 - Sucesso
+                          * 404 - 403 Acesso restrito
+                  responses:
+                    200:
+                      description: Sucesso
+                      content:
+                        application/json:
+                          example:
+                          schema:
+                            $ref: '#/components/schemas/usuarios'
+                    403:
+                      description: "Acesso Restrito para nao-usuarios"
+                      content:
+                        application/json:
+                          example: "Forbidden"
+                  security:
+                  - autenticacao: []
+                post:
+                  summary: "Adiciona um usuario novo"
+                  description:  |
+                  
+                        **Observacoes de campos**
+                        
+                        * Nao podem ser nulos
+                        * Não podem ser vazios
+                        
+                        **Abaixo A lista do codigo http que a API pode retornar**
+                        
+                        * 201 - Criado com sucesso
+                        * 403 - Acesso restrito
+                  requestBody:
+                    required: true
+                    content:
+                      application/json:
+                       schema:
+                          $ref: '#/components/schemas/usuarioForm'
+                  responses:
+                    201:
+                      description: "Created"
+                    403:
+                      description: "Acesso Restrito para nao-usuarios"
+                      content:
+                        application/json:
+                            example: "Forbidden"
+                  security:
+                  - autenticacao: []
+  /api/v1/usuarios/{id}:
+                  parameters:
+                  - name: id
+                    in: path
+                    schema:
+                      type: integer
+                    required: true
+                  put:
+                      summary: "Atualiza as informacoes de um usuario"
+                      description:  |
+                  
+                        **Observacoes de campos**
+                        
+                        * Nao podem ser nulos
+                        * Não podem ser vazios
+                        
+                        **Abaixo A lista do codigo http que a API pode retornar**
+                        
+                        * 200 - Atualizado com sucesso
+                        * 403 - Acesso restrito
+                        * 404 - Id nao encontrado
+                      requestBody:
+                        
+                        required: true
+                        content:
+                          application/json:
+                           schema:
+                              $ref: '#/components/schemas/usuarioForm'
+                      responses:
+                          200:
+                            description: "Sucesso"
+                            content:
+                              apllication/json:
+                                example: "OK"
+                          404:
+                            description: "id não encontrado"
+                            content:
+                              application/json:
+                                example: 'Not found'                      
+                          403:
+                            description: "Acesso nao permitido para não usuarios"
+                            content:
+                              application/json:
+                                example: "Forbidden"
+                      security:
+                      - autenticacao: []
+  /api/v1/autenticacao:
+                post:
+                  summary: "Auntentica um usuario"
+                  description: |
+                          **Observacoes de campos**
+                          
+                          * Nao podem ser nulos
+                          * Não podem ser vazios
+                          
+                          **Abaixo A lista do codigo http que a API pode retornar**
+                          
+                          * 200 - Atualizado com sucesso
+                          * 404 - Usuario e/ou senha nao encontrados
+                  requestBody:
+                    
+                    required: true
+                    content:
+                      application/json:
+                       schema:
+                          $ref: '#/components/schemas/autenticacaoForm'
+                  responses:
+                        200:
+                          description: "Autenticação realizada com sucesso"
+                          content:
+                            application/json:
+                              example: "OK"
+                        404:
+                          description: "Usuario nao encontrado"
+                          content:
+                            application/json:
+                              example: "Not found"
+components:
+  schemas:
+    estado:
+      type: object
+      properties:
+        id:
+          type: number
+        nome:
+          type: string
+        regiao:
+          type: string
+        populacao:
+          type: number
+        capital: 
+          type: string
+        area:
+          type: number
+    estados:
+      type: array
+      items:
+        $ref: '#/components/schemas/estado'
+    estadoForm:
+       type: object
+       properties:
+        nome:
+          type: string
+        regiao:
+           type: string
+        populacao:
+          type: number
+        capital: 
+          type: string
+        area:
+          type: number
+    usuario:
+      type: object
+      properties:
+        id:
+          type: number
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+    usuarios:
+      type: array
+      items:
+        $ref: '#/components/schemas/usuario'
+    usuarioForm:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+    autenticacaoForm:
+      type: object
+      properties:
+        email:
+          type: string
+        senha:
+          type: string
+  securitySchemes:
+    autenticacao:
+      type: http
+      scheme: bearer
+            
+    
+      
+      
+        
+        
+        
+    
+      
+          
+        
